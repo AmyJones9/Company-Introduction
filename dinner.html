@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>聚餐图片</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<style>
+.back-button {
+    text-align: center; /* 让按钮居中 */
+    margin: 40px 0; /* 上下留空，让页面不挤 */
+}
+
+.button {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #3498db;
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.button:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+}
+</style>
+<body>
+    <header>
+        <h1>聚餐图片</h1>
+    </header>
+    <div class="content" id="dinnerContent">
+        <!-- 图片和视频会通过 JavaScript 动态加载 -->
+    </div>
+    <div class="back-button">
+        <a href="index.html" class="button">返回主页</a>
+    </div>
+
+    <script>
+        window.onload = function() {
+            const dinnerContent = document.getElementById('dinnerContent');
+
+            // 动态加载聚餐图片 (文件名以 jctp 开头)
+            const images = ["jctp_001.jpg", "jctp_002.jpg", "jctp_003.jpg", "jctp_004.jpg", "jctp_005.jpg", "jctp_006.jpg", "jctp_007.jpg", "jctp_008.jpg", "jctp_009.jpg", "jctp_010.jpg"]; // 这里替换为实际的图片文件名
+            images.forEach(img => {
+                const imgElement = document.createElement('img');
+                imgElement.src = img;
+                imgElement.alt = "聚餐图片";
+                imgElement.classList.add('image');
+                dinnerContent.appendChild(imgElement);
+            });
+        }
+    </script>
+</body>
+</html>
