@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>聚餐视频</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<style>
+.back-button {
+    text-align: center; /* 让按钮居中 */
+    margin: 40px 0; /* 上下留空，让页面不挤 */
+}
+
+.button {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #3498db;
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.button:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+}
+</style>
+<body>
+    <header>
+        <h1>聚餐视频</h1>
+    </header>
+    <div class="content" id="mediaContent">
+        <!-- 图片和视频会通过 JavaScript 动态加载 -->
+    </div>
+    <div class="back-button">
+        <a href="index.html" class="button">返回主页</a>
+    </div>
+
+    <script>
+    window.onload = function() {
+        const mediaContent = document.getElementById('mediaContent');
+        
+        // 视频文件数组
+        const videoFiles =["jvsp_001.mp4","jvsp_002.mp4","jvsp_003.mp4"]; 
+
+        // 遍历每个视频文件，创建并添加到页面
+        videoFiles.forEach(function(videoFile) {
+            const videoElement = document.createElement('video');
+            videoElement.controls = true; // 添加视频控制按钮
+            const sourceElement = document.createElement('source');
+            sourceElement.src = videoFile; // 设置视频源文件路径
+            sourceElement.type = "video/mp4"; // 设置视频类型
+            videoElement.appendChild(sourceElement); // 将 source 添加到 video 元素
+            mediaContent.appendChild(videoElement); // 将 video 元素添加到页面的 mediaContent 中
+        });
+    }
+</script>
+</body>
+</html>

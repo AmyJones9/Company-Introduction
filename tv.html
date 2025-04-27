@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>电视台视频</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* 加点简单美化 */
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            padding: 20px;
+        }
+        video {
+            width: 320px;
+            height: 180px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            background: #000;
+        }
+        .back-button {
+            text-align: center;
+            margin: 20px;
+        }
+        .button {
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .button:hover {
+            background-color: #2980b9;
+        }
+	.back-button {
+    	    text-align: center; /* 让按钮居中 */
+            margin: 40px 0; /* 上下留空，让页面不挤 */
+	}
+
+	.button {
+    	    display: inline-block;
+            padding: 12px 24px;
+            background-color: #3498db;
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, transform 0.3s;
+	}
+
+	.button:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+	}
+    </style>
+</head>
+<body>
+    <header>
+        <h1>电视台视频</h1>
+    </header>
+    <div class="content" id="tvContent">
+        <!-- 电视台视频会通过 JavaScript 动态加载 -->
+    </div>
+    <div class="back-button">
+        <a href="index.html" class="button">返回主页</a>
+    </div>
+
+    <script>
+        window.onload = function() {
+            const tvContent = document.getElementById('tvContent');
+
+            // 正确的视频文件数组
+            const videoFiles = [
+                "dstsp_001.mp4", "dstsp_002.mp4", "dstsp_003.mp4", 
+                "dstsp_004.mp4", "dstsp_005.mp4", "dstsp_006.mp4"]; 
+
+            // 遍历数组，动态生成每个视频
+            videoFiles.forEach(function(videoFile) {
+                const videoElement = document.createElement('video');
+                videoElement.controls = true;
+
+                const sourceElement = document.createElement('source');
+                sourceElement.src = videoFile;
+                sourceElement.type = "video/mp4";
+
+                videoElement.appendChild(sourceElement);
+                tvContent.appendChild(videoElement);
+            });
+        }
+    </script>
+</body>
+</html>
