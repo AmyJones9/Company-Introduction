@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>团队收入</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<style>
+.back-button {
+    text-align: center; /* 让按钮居中 */
+    margin: 40px 0; /* 上下留空，让页面不挤 */
+}
+
+.button {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #3498db;
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.button:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+}
+</style>
+<body>
+    <header>
+        <h1>团队收入</h1>
+    </header>
+<div class="content" id="InvitationBonus">
+
+<p>如果您是S3，邀请某人（A级）加入S3，您获得邀请奖励2970BDT。如果你的A级下属邀请某人（B级）加入S3，你可以赚取891BDT。如果你的B级下属邀请某人（C级）加入S3，你可以赚取297BDT</p>
+<p>如果你是S3，邀请10个S3的A级，50个S3的B级，100个S3的C级。计算总奖金为：2970*10*10%+2970*50*3%+2970*100*1%=10395BDT
+S1邀请S3仅能获得S1的邀请奖金。低等级不能获得更高等级的所有的邀请奖金</p>
+</div>
+
+<div class="content" id="TaskManagementBonus">
+
+<p>如果你是S3，你有10个S3的A级，50个S3的B级，100个S3的C级。S3的每日任务收入为1110。1天的任务管理费为：1110*10*5%+1110*50*2%+1110*100*1%=2775BDT。100天的任务管理费为2775*100=277500BDT</p>
+<p>任务管理奖金永久享受。低等级不能获得更高等级的任务管理奖金。</p>
+</div>
+
+<div class="content" id="SalaryInfo">
+
+<p>当你有18个直属A级成员，成为实习经理，领月薪8000BDT。当你团队ABC有300个成员，成为高级市场经理，领月薪45000BDT，以此类推.
+团队成员为S1及以上用户，并且S1占比不能超过30%。每月01号发放月薪</p>
+</div>
+<script>
+        window.onload = function() {
+    const images = [
+        { id: "InvitationBonus", src: "tdsr_001.jpg" },
+        { id: "TaskManagementBonus", src: "tdsr_002.jpg" },
+        { id: "SalaryInfo", src: "tdsr_003.jpg" }
+    ];
+
+    images.forEach(item => {
+        const container = document.getElementById(item.id);
+        if (container) {
+            const imgElement = document.createElement('img');
+            imgElement.src = item.src;
+            imgElement.alt = "相关图片";
+            imgElement.classList.add('image');
+            container.insertBefore(imgElement, container.firstChild);
+        }
+    });
+}
+</script>
+    <div class="back-button">
+        <a href="index.html" class="button">返回主页</a>
+    </div>
+</body>
+</html>
