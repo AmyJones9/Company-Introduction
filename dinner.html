@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>聚餐图片</title>
+    <title>রাতের খাবারের ছবি</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <style>
@@ -31,13 +31,13 @@
 </style>
 <body>
     <header>
-        <h1>聚餐图片</h1>
+        <h1>রাতের খাবারের ছবি</h1>
     </header>
     <div class="content" id="dinnerContent">
-        <!-- 图片和视频会通过 JavaScript 动态加载 -->
+        <!-- 图片会通过 JavaScript 动态加载 -->
     </div>
     <div class="back-button">
-        <a href="index.html" class="button">返回主页</a>
+        <a href="index.html" class="button">হোম পেজে ফিরে যান</a>
     </div>
 
     <script>
@@ -49,7 +49,7 @@
             images.forEach(img => {
                 const imgElement = document.createElement('img');
                 imgElement.src = img;
-                imgElement.alt = "聚餐图片";
+                imgElement.alt = "রাতের খাবারের ছবি";
                 imgElement.classList.add('image');
                 dinnerContent.appendChild(imgElement);
             });
