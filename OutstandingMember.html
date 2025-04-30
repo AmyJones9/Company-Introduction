@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>রাতের খাবারের ছবি</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<style>
+p{
+    color:red;
+    algin:center;
+}
+.back-button {
+    text-align: center; /* 让按钮居中 */
+    margin: 40px 0; /* 上下留空，让页面不挤 */
+}
+
+.button {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #3498db;
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.button:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+}
+</style>
+<body>
+    <header>
+        <h1>রাতের খাবারের ছবি</h1>
+    </header>
+    <div class="content" id="dinnerContent">
+        <!-- 图片会通过 JavaScript 动态加载 -->
+    </div>
+	<p>নিয়মিত কর্মচারীদের গোপনীয়তা এবং নিরাপত্তা রক্ষা করার জন্য। এই প্রদর্শন শুধুমাত্র কিছু অসামান্য সদস্যদের বেতন স্লিপ দেখায়.</p>
+    <div class="back-button">
+        <a href="index.html" class="button">বিশিষ্ট সদস্য</a>
+    </div> 
+    <script>
+        window.onload = function() {
+            const dinnerContent = document.getElementById('dinnerContent');
+
+            // 动态加载聚餐图片 (文件名以 jctp 开头)
+            const images = ["gzd_001.jpg","gzd_002.jpg","gzd_003.jpg","gzd_004.jpg", "gzd_005.jpg", "gzd_006.jpg","gzd_007.jpg","gzd_008.jpg","gzd_009.jpg","gzd_010.jpg","gzd_011.jpg","gzd_012.jpg","gzd_013.jpg","gzd_014.jpg","gzd_015.jpg"]; // 这里替换为实际的图片文件名
+            images.forEach(img => {
+                const imgElement = document.createElement('img');
+                imgElement.src = img;
+                imgElement.alt = "বিশিষ্ট সদস্য";
+                imgElement.classList.add('image');
+                dinnerContent.appendChild(imgElement);
+            });
+        }
+    </script>
+</body>
+</html>
