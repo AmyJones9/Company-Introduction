@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>প্রতিযোগিতার প্রশ্নাবলী</title>
+  <style>
+    body {
+      font-family: "Arial", sans-serif;
+      background-color: #f0f2f5;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 600px;
+      background: white;
+      margin: auto;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      font-size: 22px;
+    }
+
+    .question {
+      margin-bottom: 20px;
+    }
+
+    .question label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 6px;
+      font-size: 16px;
+    }
+
+    .question input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+
+    .correct-answer {
+      color: red;
+      margin-top: 5px;
+      font-size: 14px;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 15px;
+      padding: 12px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+
+    button:hover:not(:disabled) {
+      background-color: #45a049;
+    }
+
+    #viewMistakes {
+      background-color: #2196F3;
+      display: none;
+    }
+
+    #viewMistakes:hover {
+      background-color: #0b7dda;
+    }
+
+    .result {
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+
+    #countdown {
+      text-align: center;
+      font-size: 16px;
+      margin-top: 10px;
+      color: #444;
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 10px;
+      }
+
+      h2 {
+        font-size: 20px;
+      }
+
+      .question label {
+        font-size: 15px;
+      }
+
+      .question input {
+        font-size: 15px;
+      }
+
+      button {
+        font-size: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>প্রতিযোগিতার প্রশ্নাবলী</h2>
+
+    <div class="question" id="q1-box">
+      <label>1. SAA এর ইতিহাস কত দিনের?</label>
+      <input type="text" id="q1" />
+    </div>
+
+    <div class="question" id="q2-box">
+      <label>2. ইভেন্ট চলাকালীন, একজন সাধারণ কর্মচারী একজন নতুন S2 সদস্যকে S2 স্তরের কর্মচারী হিসেবে আমন্ত্রণ জানিয়ে কত বোনাস পেতে পারেন?</label>
+      <input type="text" id="q2" />
+    </div>
+
+    <div class="question" id="q3-box">
+      <label>3. ইভেন্ট চলাকালীন, যদি S3 স্তরের একজন সাধারণ কর্মচারী একজন নতুন S3 সদস্যকে আমন্ত্রণ জানান, তাহলে নতুন সদস্য কত বোনাস পেতে পারেন?</label>
+      <input type="text" id="q3" />
+    </div>
+
+    <div class="question" id="q4-box">
+      <label>4. S3 সদস্যরা প্রতি মাসে কত মৌলিক আয় পেতে পারেন?</label>
+      <input type="text" id="q4" />
+    </div>
+
+    <div class="question" id="q5-box">
+      <label>5. ইন্টার্ন ম্যানেজার হওয়ার পরে আপনি কত মাসিক বেতন আয় উপভোগ করবেন?</label>
+      <input type="text" id="q5" />
+    </div>
+
+    <button id="submitBtn" onclick="submitAnswers()">উত্তর জমা দিন</button>
+    <div id="countdown"></div>
+    <p>দয়া করে সাবধানে উত্তর দিন। আপনি সঠিকভাবে সমস্ত প্রশ্নের উত্তর দেওয়ার পরে, আপনি একটি স্ক্রিনশট নিতে পারেন এবং একটি সুন্দর এলোমেলো উপহার পাওয়ার জন্য নিয়োগকারী পরিচালকের কাছে পাঠাতে পারেন!</p>
+    <div class="result" id="result"></div>
+
+    <button id="viewMistakes" onclick="showMistakes()">查看错题</button>
+  </div>
+
+  <script>
+    const correctAnswers = {
+      q1: "৩০ বছর",
+      q2: "১৩৯২ টাকা",
+      q3: "১৪৮৫ টাকা",
+      q4: "৩৩৩০০ টাকা",
+      q5: "৮০০০ টাকা"
+    };
+
+    let userAnswers = {};
+    let wrongList = [];
+
+    function getBDDateString() {
+      const nowUTC = new Date();
+      const bdTime = new Date(nowUTC.getTime() + 6 * 60 * 60000);
+      return bdTime.toISOString().split("T")[0];
+    }
+
+    function updateCountdown() {
+      const nowUTC = new Date();
+      const nowBD = new Date(nowUTC.getTime() + 6 * 60 * 60000);
+
+      const endOfDayBD = new Date(
+        nowBD.getFullYear(),
+        nowBD.getMonth(),
+        nowBD.getDate(),
+        23, 59, 59
+      );
+
+      const remaining = endOfDayBD - nowBD;
+
+      if (remaining <= 0) {
+        document.getElementById("countdown").innerText = "আজকের কুইজ শেষ হয়েছে।";
+        return;
+      }
+
+      const totalSeconds = Math.floor(remaining / 1000);
+      const hours = Math.floor(totalSeconds / 650);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+
+      document.getElementById("countdown").innerText =
+        `আজ প্রশ্নের উত্তর দেওয়ার জন্য বাকি সময়：${hours}ঘন্টা ${minutes}মিনিট ${seconds}সেকেন্ড`;
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    function submitAnswers() {
+      const today = getBDDateString();
+      const lastSubmit = localStorage.getItem("lastSubmitDate");
+
+      if (lastSubmit === today) {
+        alert("তুমি আজই তোমার উত্তর জমা দিয়েছো এবং আর উত্তর দিতে পারবে না।");
+        return;
+      }
+
+      userAnswers = {};
+      wrongList = [];
+      let allFilled = true;
+      let correctCount = 0;
+
+      for (let i = 1; i <= 5; i++) {
+        const input = document.getElementById("q" + i);
+        const value = input.value.trim();
+        const questionBox = document.getElementById("q" + i + "-box");
+
+        const prevAnswer = questionBox.querySelector(".correct-answer");
+        if (prevAnswer) {
+          prevAnswer.remove();
+        }
+
+        if (!value) {
+          allFilled = false;
+          break;
+        }
+
+        userAnswers["q" + i] = value;
+
+        if (value === correctAnswers["q" + i]) {
+          correctCount++;
+        } else {
+          wrongList.push("q" + i);
+        }
+      }
+
+      if (!allFilled) {
+        alert("তোমার উত্তর এখনও সম্পূর্ণ হয়নি।");
+        return;
+      }
+
+      localStorage.setItem("lastSubmitDate", today);
+      document.getElementById("submitBtn").disabled = true;
+
+      const resultDiv = document.getElementById("result");
+      const viewBtn = document.getElementById("viewMistakes");
+
+      resultDiv.innerText = `আপনি ${correctCount} টি প্রশ্নের সঠিক উত্তর দিয়েছেন।。`;
+      viewBtn.style.display = wrongList.length > 0 ? "block" : "none";
+    }
+
+    function showMistakes() {
+      wrongList.forEach((qid) => {
+        const questionBox = document.getElementById(qid + "-box");
+
+        if (!questionBox.querySelector(".correct-answer")) {
+          const correct = correctAnswers[qid];
+          const div = document.createElement("div");
+          div.className = "correct-answer";
+          div.innerText = `সঠিক উত্তর：${correct}`;
+          questionBox.appendChild(div);
+        }
+      });
+    }
+
+    function scheduleAutoRefresh() {
+      const nowUTC = new Date();
+      const nowBD = new Date(nowUTC.getTime() + 6 * 60 * 60000);
+
+      const nextBDMidnight = new Date(
+        nowBD.getFullYear(),
+        nowBD.getMonth(),
+        nowBD.getDate() + 1, 0, 0, 5 // 第二天 00:00:05
+      );
+
+      const delay = nextBDMidnight - nowBD;
+
+      setTimeout(() => {
+        location.reload();
+      }, delay);
+    }
+
+    window.onload = () => {
+      const today = getBDDateString();
+      const lastSubmit = localStorage.getItem("lastSubmitDate");
+
+      if (lastSubmit === today) {
+        document.getElementById("submitBtn").disabled = true;
+        document.getElementById("result").innerText = "তুমি আজ তোমার উত্তর জমা দিয়েছো।";
+      }
+
+      scheduleAutoRefresh();
+    };
+  </script>
+</body>
+</html>
