@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>নতুন ইভেন্ট</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f0f4f8;
+      color: #333;
+    }
+    header {
+      background-color: #3498db;
+      color: white;
+      padding: 20px 10px;
+      text-align: center;
+      font-size: 24px;
+    }
+    .content {
+      padding: 20px;
+      max-width: 800px;
+      margin: auto;
+    }
+    .activity {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      margin-bottom: 30px;
+      overflow: hidden;
+    }
+    .activity img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-bottom: 1px solid #ddd;
+    }
+    .activity p {
+      padding: 20px;
+      white-space: pre-line;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+    #countdown {
+      padding: 0 20px 20px;
+      font-weight: bold;
+      color: #e74c3c;
+      font-size: 16px;
+    }
+    .back-button {
+      text-align: center;
+      padding: 20px;
+    }
+    .button {
+      display: inline-block;
+      background-color: #3498db;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 16px;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    .button:hover {
+      background-color: #2980b9;
+      transform: translateY(-2px);
+    }
+    @media (max-width: 600px) {
+      header {
+        font-size: 20px;
+        padding: 16px 8px;
+      }
+      .activity p {
+        font-size: 15px;
+        padding: 16px;
+      }
+      .button {
+        font-size: 15px;
+        padding: 10px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    নতুন ইভেন্ট
+  </header>
+  <div class="content" id="dinnerContent"></div>
+  <div class="back-button">
+    <a href="index.html" class="button">হোম পেজে ফিরে যান</a>
+  </div>
+  <script>
+    window.onload = function () {
+      const dinnerContent = document.getElementById('dinnerContent');
+      const activities = [
+        {
+          img: "jifen.jpg",
+          text: `পয়েন্ট নিয়মাবলী নিম্নরূপঃ
+নতুন কর্মচারীকে S3-এ আমন্ত্রণ জানালে ৫ পয়েন্ট
+নতুন কর্মচারীকে S2-এ আমন্ত্রণ জানালে ২ পয়েন্ট
+নতুন কর্মচারীকে S1-এ আমন্ত্রণ জানালে ১ পয়েন্ট
+সাপ্তাহিক পয়েন্ট প্রতিযোগিতা, প্রতিটি সপ্তাহ শেষে পয়েন্ট রিসেট হবে
+সুনির্দিষ্ট সময়সীমাঃ
+মে ২ - মে ৯,
+মে ১০ - মে ১৬,
+মে ১৭ - মে ২৩,
+মে ২৪ - মে ৩০
+এই পুরস্কার প্রতিযোগিতা SAA চলমান অন্যান্য কার্যক্রমের সাথে একসাথে চলবে
+আপনি অতিরিক্ত আয় করার পাশাপাশি
+পয়েন্ট প্রতিযোগিতায় র‍্যাঙ্কের মাধ্যমে পুরস্কার জিততে পারবেন`
+        },
+        {
+          img: "zhuanpan.jpg",
+          text: `নতুন A-স্তরের অধীনস্থ কর্মচারীকে S1 বানালে ১ বার ভাগ্যচক্রে অংশগ্রহণ
+নতুন A-স্তরের অধীনস্থ কর্মচারীকে S2 বানালে ২ বার ভাগ্যচক্রে অংশগ্রহণ
+নতুন A-স্তরের অধীনস্থ কর্মচারীকে S3 বানালে ৩ বার ভাগ্যচক্রে অংশগ্রহণ
+ভাগ্যচক্র উন্মুক্ত সময়ঃ
+মে ২ রাত ৯টা - মে ৬ রাত ৯টা`,
+          countdown: true
+        }
+      ];
+      activities.forEach(activity => {
+        const container = document.createElement('div');
+        container.className = 'activity';
+        const imgElement = document.createElement('img');
+        imgElement.src = activity.img;
+        imgElement.alt = "ইভেন্ট ছবি";
+        const textElement = document.createElement('p');
+        textElement.textContent = activity.text;
+        container.appendChild(imgElement);
+        container.appendChild(textElement);
+        if (activity.countdown) {
+          const countdownElement = document.createElement('div');
+          countdownElement.id = 'countdown';
+          container.appendChild(countdownElement);
+          startCountdown(countdownElement);
+        }
+        dinnerContent.appendChild(container);
+      });
+    };
+
+    function startCountdown(element) {
+      // শুরু ও শেষ সময় নির্ধারণ (বাংলাদেশ সময় অনুযায়ী)
+      const startTime = new Date("2025-05-01T18:00:00Z");
+      const endTime = new Date("2025-05-06T09:00:00Z");
+
+      const timer = setInterval(() => {
+        const now = new Date();
+        const nowUTC = new Date(
+          now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),
+          now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds()
+        );
+
+        if (nowUTC < startTime) {
+          element.textContent = "ইভেন্ট এখনও শুরু হয়নি";
+          return;
+        }
+
+        const diff = endTime - nowUTC;
+
+        if (diff <= 0) {
+          clearInterval(timer);
+          element.textContent = "ইভেন্ট শেষ হয়েছে";
+          return;
+        }
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((diff / (1000 * 60)) % 60);
+        const seconds = Math.floor((diff / 1000) % 60);
+
+        element.textContent = `ইভেন্ট শেষ হতে বাকি: ${days} দিন ${hours} ঘণ্টা ${minutes} মিনিট ${seconds} সেকেন্ড`;
+      }, 1000);
+    }
+  </script>
+</body>
+</html>
