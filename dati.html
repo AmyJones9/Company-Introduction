@@ -55,6 +55,29 @@
     p{
       color:red;
     }
+
+    .back-button {
+    text-align: center; /* 让按钮居中 */
+    margin: 40px 0; /* 上下留空，让页面不挤 */
+    }
+
+    .button {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #3498db;
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, transform 0.3s;
+    }
+
+    .button:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+    }
+
     button {
       width: 100%;
       margin-top: 15px;
@@ -158,7 +181,9 @@
 
     <button id="viewMistakes" onclick="showMistakes()">查看错题</button>
   </div>
-
+    <div class="back-button">
+        <a href="index.html" class="button">হোম পেজে ফিরে যান</a>
+    </div>
   <script>
   const correctAnswers = {
     q1: "৩০ বছর",
