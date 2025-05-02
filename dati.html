@@ -52,30 +52,31 @@
       margin-top: 5px;
       font-size: 14px;
     }
-    p{
-      color:red;
+
+    p {
+      color: red;
     }
 
     .back-button {
-    text-align: center; /* 让按钮居中 */
-    margin: 40px 0; /* 上下留空，让页面不挤 */
+      text-align: center;
+      margin: 40px 0;
     }
 
     .button {
-    display: inline-block;
-    padding: 12px 24px;
-    background-color: #3498db;
-    color: #fff;
-    text-decoration: none;
-    font-size: 18px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s, transform 0.3s;
+      display: inline-block;
+      padding: 12px 24px;
+      background-color: #3498db;
+      color: #fff;
+      text-decoration: none;
+      font-size: 18px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s, transform 0.3s;
     }
 
     .button:hover {
-    background-color: #2980b9;
-    transform: translateY(-2px);
+      background-color: #2980b9;
+      transform: translateY(-2px);
     }
 
     button {
@@ -118,8 +119,12 @@
     #countdown {
       text-align: center;
       font-size: 16px;
-      margin-top: 10px;
+      margin-bottom: 10px;
       color: #444;
+    }
+
+    #countdown{
+      color:blue;
     }
 
     @media (max-width: 480px) {
@@ -174,46 +179,51 @@
       <input type="text" id="q5" />
     </div>
 
-    <button id="submitBtn" onclick="submitAnswers()">উত্তর জমা দিন</button>
+    <!-- ✅ 倒计时在这里 -->
     <div id="countdown"></div>
+    <button id="submitBtn" onclick="submitAnswers()">উত্তর জমা দিন</button>
+
     <p>দয়া করে সাবধানে উত্তর দিন। আপনি সঠিকভাবে সমস্ত প্রশ্নের উত্তর দেওয়ার পরে, আপনি একটি স্ক্রিনশট নিতে পারেন এবং একটি সুন্দর এলোমেলো উপহার পাওয়ার জন্য নিয়োগকারী পরিচালকের কাছে পাঠাতে পারেন!</p>
     <div class="result" id="result"></div>
 
     <button id="viewMistakes" onclick="showMistakes()">查看错题</button>
   </div>
-    <div class="back-button">
-        <a href="index.html" class="button">হোম পেজে ফিরে যান</a>
-    </div>
+
+  <div class="back-button">
+    <a href="index.html" class="button">হোম পেজে ফিরে যান</a>
+  </div>
+
   <script>
-  const correctAnswers = {
-    q1: "৩০ বছর",
-    q2: "১৩৯২ টাকা",
-    q3: "৫ পয়েন্ট",
-    q4: "৩৩৩০০ টাকা",
-    q5: "৮০০০ টাকা"
-  };
+    const correctAnswers = {
+      q1: "৩০ বছর",
+      q2: "১৩৯২ টাকা",
+      q3: "৫ পয়েন্ট",
+      q4: "৩৩৩০০ টাকা",
+      q5: "৮০০০ টাকা"
+    };
 
-  let userAnswers = {};
-  let wrongList = [];
+    let userAnswers = {};
+    let wrongList = [];
 
-  function getBDDateString() {
-    const nowUTC = new Date();
-    const bdTime = new Date(nowUTC.getTime() + 6 * 60 * 60 * 1000); // 修正 UTC+6
-    return bdTime.toISOString().split("T")[0];
-  }
+    function getBDDateString() {
+      const nowUTC = new Date();
+      const bdTime = new Date(nowUTC.getTime() + 6 * 60 * 60 * 1000);
+      return bdTime.toISOString().split("T")[0];
+    }
 
-  function updateCountdown() {
+    function updateCountdown() {
   const nowUTC = new Date();
-  const nowBD = new Date(nowUTC.getTime() + 6 * 60 * 60000);
+  const nowBD = new Date(nowUTC.getTime() + 6 * 60 * 60 * 1000);
 
-  const endOfDayBD = new Date(
+  // 构造孟加拉时间当日 23:59:59 的 UTC 时间
+  const endOfDayUTC = new Date(Date.UTC(
     nowBD.getFullYear(),
     nowBD.getMonth(),
     nowBD.getDate(),
-    23, 59, 59
-  );
+    17, 59, 59 // 孟加拉时间 23:59:59 - UTC 偏移 6 小时 = 17:59:59 UTC
+  ));
 
-  const remaining = endOfDayBD - nowBD;
+  const remaining = endOfDayUTC.getTime() - nowUTC.getTime();
 
   if (remaining <= 0) {
     document.getElementById("countdown").innerText = "আজকের কুইজ শেষ হয়েছে।";
@@ -229,44 +239,70 @@
     `আজ প্রশ্নের উত্তর দেওয়ার জন্য বাকি সময়：${hours} ঘন্টা ${minutes} মিনিট ${seconds} সেকেন্ড`;
 }
 
-  setInterval(updateCountdown, 1000);
-  updateCountdown();
 
-  function submitAnswers() {
-    const today = getBDDateString();
-    const lastSubmit = localStorage.getItem("lastSubmitDate");
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
 
-    if (lastSubmit === today) {
-      alert("তুমি আজই তোমার উত্তর জমা দিয়েছো এবং আর উত্তর দিতে পারবে না।");
-      return;
+    function submitAnswers() {
+      const today = getBDDateString();
+      const lastSubmit = localStorage.getItem("lastSubmitDate");
+
+      if (lastSubmit === today) {
+        alert("তুমি আজই তোমার উত্তর জমা দিয়েছো এবং আর উত্তর দিতে পারবে না।");
+        return;
+      }
+
+      userAnswers = {};
+      wrongList = [];
+      let allFilled = true;
+      let correctCount = 0;
+
+      for (let i = 1; i <= 5; i++) {
+        const input = document.getElementById("q" + i);
+        const value = input.value.trim();
+        const questionBox = document.getElementById("q" + i + "-box");
+
+        const prevAnswer = questionBox.querySelector(".correct-answer");
+        if (prevAnswer) {
+          prevAnswer.remove();
+        }
+
+        if (!value) {
+          allFilled = false;
+          break;
+        }
+
+        userAnswers["q" + i] = value;
+
+        if (value === correctAnswers["q" + i]) {
+          correctCount++;
+        } else {
+          wrongList.push("q" + i);
+          const hint = document.createElement("div");
+          hint.className = "correct-answer";
+          hint.textContent = `সঠিক উত্তর: ${correctAnswers["q" + i]}`;
+          questionBox.appendChild(hint);
+        }
+      }
+
+      if (!allFilled) {
+        alert("দয়া করে সব প্রশ্নের উত্তর দিন।");
+        return;
+      }
+
+      localStorage.setItem("lastSubmitDate", today);
+
+      const result = document.getElementById("result");
+      result.textContent = `আপনি ${correctCount}/5 টি প্রশ্নের সঠিক উত্তর দিয়েছেন।`;
+
+      if (wrongList.length > 0) {
+        document.getElementById("viewMistakes").style.display = "block";
+      }
     }
 
-    userAnswers = {};
-    wrongList = [];
-    let allFilled = true;
-    let correctCount = 0;
-
-    for (let i = 1; i <= 5; i++) {
-      const input = document.getElementById("q" + i);
-      const value = input.value.trim();
-      const questionBox = document.getElementById("q" + i + "-box");
-
-      const prevAnswer = questionBox.querySelector(".correct-answer");
-      if (prevAnswer) {
-        prevAnswer.remove();
-      }
-
-      if (!value) {
-        allFilled = false;
-        break;
-      }
-
-      userAnswers["q" + i] = value;
-
-      if (value === correctAnswers["q" + i]) {
-        correctCount++;
-      } else {
-        wrongList.push("q
-
+    function showMistakes() {
+      alert("আপনার ভুল উত্তরগুলোর প্রশ্ন ID: " + wrongList.join(", "));
+    }
+  </script>
 </body>
 </html>
