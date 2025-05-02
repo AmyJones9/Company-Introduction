@@ -30,11 +30,34 @@
       0%, 100% { background-color: rgba(30, 144, 255, 0.6); }
       50% { background-color: rgba(30, 144, 255, 0.9); }
     }
+    .back-button {
+    text-align: center; /* 让按钮居中 */
+    margin: 40px 0; /* 上下留空，让页面不挤 */
+    }
+
+    .button {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #3498db;
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, transform 0.3s;
+    }
+
+    .button:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+    }
   </style>
 </head>
 <body class="flex flex-col items-center p-4">
   <div id="root" class="w-full max-w-5xl"></div>
-
+  <div class="back-button">
+        <a href="index.html" class="button">হোম পেজে ফিরে যান</a>
+    </div>
   <script type="text/babel">
     const { useState, useEffect, useRef } = React;
 
@@ -192,6 +215,7 @@
     }
 
     ReactDOM.createRoot(document.getElementById('root')).render(<Scoreboard />);
+	
   </script>
 </body>
 </html>
