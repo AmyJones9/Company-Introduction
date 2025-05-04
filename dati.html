@@ -120,11 +120,7 @@
       text-align: center;
       font-size: 16px;
       margin-bottom: 10px;
-      color: #444;
-    }
-
-    #countdown{
-      color:blue;
+      color: blue;
     }
 
     @media (max-width: 480px) {
@@ -136,14 +132,8 @@
         font-size: 20px;
       }
 
-      .question label {
-        font-size: 15px;
-      }
-
-      .question input {
-        font-size: 15px;
-      }
-
+      .question label,
+      .question input,
       button {
         font-size: 15px;
       }
@@ -153,40 +143,16 @@
 <body>
   <div class="container">
     <h2>প্রতিযোগিতার প্রশ্নাবলী</h2>
+    
+    <div id="question-container"></div>
 
-    <div class="question" id="q1-box">
-      <label>1. পয়েন্ট কার্যকলাপে প্রথম স্থান অধিকারী কী উপহার পেতে পারে?</label>
-      <input type="text" id="q1" />
-    </div>
-
-    <div class="question" id="q2-box">
-      <label>2. পয়েন্ট প্রতিযোগিতায় দ্বিতীয় স্থান অর্জনের জন্য আপনি কী উপহার পেতে পারেন?</label>
-      <input type="text" id="q2" />
-    </div>
-
-    <div class="question" id="q3-box">
-      <label>3. ড্রতে অংশগ্রহণের সুযোগ কীভাবে পাবেন?</label>
-      <input type="text" id="q3" />
-    </div>
-
-    <div class="question" id="q4-box">
-      <label>4. নতুন S3 সদস্যদের আমন্ত্রণ করে আপনি কী আয় পেতে পারেন?</label>
-      <input type="text" id="q4" />
-    </div>
-
-    <div class="question" id="q5-box">
-      <label>5.টিম বিল্ডিং এর সুবিধা কি কি?</label>
-      <input type="text" id="q5" />
-    </div>
-
-    <!-- ✅ 倒计时在这里 -->
     <div id="countdown"></div>
     <button id="submitBtn" onclick="submitAnswers()">উত্তর জমা দিন</button>
 
     <p>দয়া করে সাবধানে উত্তর দিন। আপনি সঠিকভাবে সমস্ত প্রশ্নের উত্তর দেওয়ার পরে, আপনি একটি স্ক্রিনশট নিতে পারেন এবং একটি সুন্দর এলোমেলো উপহার পাওয়ার জন্য নিয়োগকারী পরিচালকের কাছে পাঠাতে পারেন!</p>
     <div class="result" id="result"></div>
 
-    <button id="viewMistakes" onclick="showMistakes()">查看错题</button>
+    <button id="viewMistakes" onclick="showMistakes()">ভুল প্রশ্নগুলি দেখুন</button>
   </div>
 
   <div class="back-button">
@@ -194,14 +160,30 @@
   </div>
 
   <script>
-    const correctAnswers = {
-      q1: "মোটরসাইকেল",
-      q2: "মুঠোফোন",
-      q3: "সংশ্লিষ্ট লটারির সুযোগ পেতে নতুন S সদস্যদের আমন্ত্রণ জানান।",
-      q4: "2970 টাকা + 1485 টাকা, মোট 4455 টাকা। আপনি প্রতিদিন সকল দলের সদস্যদের কাছ থেকে টাস্ক ম্যানেজমেন্ট আয়ও পেতে পারেন",
-      q5: "দলের আয় মোট আয়ের ৮০%। তুমি এটা ভেবে দেখতে পারো, যদি তোমার A-লেভেলে ১০ জন সদস্য থাকে, এবং প্রতিটি A-লেভেল সদস্য প্রতিদিন একজন নতুন সদস্যকে আমন্ত্রণ জানায়, তাহলে তোমার দলে এক মাসে ৩০০ জন সদস্য থাকবে।"
-    };
+    const questionBank = [
+      { question: "SAA এর ইতিহাস কত দিনের?", answer: "৩০ বছর" },
+      { question: "ইভেন্ট চলাকালীন, একজন সাধারণ কর্মচারী একজন নতুন S2 সদস্যকে S2 স্তরের কর্মচারী হিসেবে আমন্ত্রণ জানিয়ে কত বোনাস পেতে পারেন?", answer: "১৩৯২ টাকা" },
+      { question: "একজন S3 সদস্যকে আমন্ত্রণ জানিয়ে আপনি কত পয়েন্ট পেতে পারেন?", answer: "৫ পয়েন্ট" },
+      { question: "S3 সদস্যরা প্রতি মাসে কত মৌলিক আয় পেতে পারেন?", answer: "৩৩৩০০ টাকা" },
+      { question: "ইন্টার্ন ম্যানেজার হওয়ার পরে আপনি কত মাসিক বেতন আয় উপভোগ করবেন?", answer: "৮০০০ টাকা" },
+      { question: "S2 সদস্য প্রতি মাসে কত ইনকাম পেতে পারে?", answer: "১৭৭০০ টাকা" },
+      { question: "একজন নতুন সদস্যকে আমন্ত্রণ জানালে কত রেফারেল পয়েন্ট পাওয়া যায়?", answer: "৩ পয়েন্ট" },
+      { question: "পয়েন্ট কার্যকলাপে প্রথম স্থান অধিকারী কী উপহার পেতে পারে?", answer: "মোটরসাইকেল" }
+      { question: "পয়েন্ট প্রতিযোগিতায় দ্বিতীয় স্থান অর্জনের জন্য আপনি কী উপহার পেতে পারেন?", answer: "মুঠোফোন" }
+      { question: "ড্রতে অংশগ্রহণের সুযোগ কীভাবে পাবেন?", answer: "সংশ্লিষ্ট লটারির সুযোগ পেতে নতুন S সদস্যদের আমন্ত্রণ জানান।" }
+      { question: "নতুন S3 সদস্যদের আমন্ত্রণ করে আপনি কী আয় পেতে পারেন?", answer: "2970 টাকা + 1485 টাকা, মোট 4455 টাকা। আপনি প্রতিদিন সকল দলের সদস্যদের কাছ থেকে টাস্ক ম্যানেজমেন্ট আয়ও পেতে পারেন" }
+      { question: "টিম বিল্ডিং এর সুবিধা কি কি?", answer: "দলের আয় মোট আয়ের ৮০%। তুমি এটা ভেবে দেখতে পারো, যদি তোমার A-লেভেলে ১০ জন সদস্য থাকে, এবং প্রতিটি A-লেভেল সদস্য প্রতিদিন একজন নতুন সদস্যকে আমন্ত্রণ জানায়, তাহলে তোমার দলে এক মাসে ৩০০ জন সদস্য থাকবে।" }
+      { question: "একজন S3 সদস্য হিসেবে, যদি আপনি 10 জন S3 সদস্যকে আমন্ত্রণ জানান, তাহলে আপনি কত আমন্ত্রণ বোনাস পেতে পারেন?", answer: "উত্তর: ২৯৭০০ টাকা" }
+      { question: "যখন আপনি S2 সদস্যপদ থেকে S3 সদস্যপদে আপগ্রেড করবেন, তখন আপনার অ্যাকাউন্টে কত টাকা ফেরত পাঠানো হবে?", answer: "উত্তর: ৮৭০০ টাকা" }
+      { question: "একজন S3 সদস্য হিসাবে, আপনি যদি 10 A-স্তরের S3 সদস্য এবং 100 A-স্তরের S2 সদস্যকে আমন্ত্রণ জানান, তাহলে আপনি প্রতিদিন কত টাস্ক ম্যানেজমেন্ট বোনাস পেতে পারেন?", answer: " ২১৫৫ টাকা" }
+      { question: "S3 সদস্যরা প্রতিদিন কত মৌলিক আয় পেতে পারেন?", answer: "১১১০ টাকা" }
+      { question: "কিভাবে একজন প্রশিক্ষণার্থী ব্যবস্থাপক হবেন?", answer: "যদি দলে ১৮ জন A-লেভেল S সদস্য থাকে (যাদের মধ্যে ১৩ জন S2 বা S3), তাহলে আপনি আপনার পদটি নিয়োগ ব্যবস্থাপক পদে উন্নীত করতে পারেন এবং ৮,০০০ টাকা মাসিক বেতন উপভোগ করতে পারেন।" }
+      { question: "একজন মার্কেটিং ম্যানেজার হতে কী কী লাগে?", answer: "যদি আপনার দলে A, B, C এবং D এই তিনটি স্তরে ১০০ জন S সদস্য থাকে (যাদের মধ্যে ৭০ জন S2 বা S3), তাহলে আপনি মার্কেটিং ম্যানেজার পদে পদোন্নতির জন্য নিয়োগ ব্যবস্থাপকের কাছে আবেদন করতে পারেন এবং মাসিক ২০,০০০ টাকা বেতন উপভোগ করতে পারেন।" }
+      { question: "বিপণন ব্যবস্থাপক হিসাবে আপনি কি সুবিধা উপভোগ করতে পারেন?", answer: "আপনি সারাজীবন মাসিক ২০,০০০ টাকা বেতন উপভোগ করতে পারবেন।" }
 
+    ];
+
+    let correctAnswers = {};
     let userAnswers = {};
     let wrongList = [];
 
@@ -211,37 +193,68 @@
       return bdTime.toISOString().split("T")[0];
     }
 
+    function getOrGenerateDailyQuestions() {
+      const today = getBDDateString();
+      const saved = localStorage.getItem("questions_" + today);
+      if (saved) {
+        return JSON.parse(saved);
+      } else {
+        const shuffled = [...questionBank].sort(() => 0.5 - Math.random()).slice(0, 5);
+        localStorage.setItem("questions_" + today, JSON.stringify(shuffled));
+        return shuffled;
+      }
+    }
+
+    function renderQuestions() {
+      const container = document.getElementById("question-container");
+      container.innerHTML = "";
+      const selectedQuestions = getOrGenerateDailyQuestions();
+      selectedQuestions.forEach((q, index) => {
+        const qId = "q" + (index + 1);
+        correctAnswers[qId] = q.answer;
+
+        const div = document.createElement("div");
+        div.className = "question";
+        div.id = `${qId}-box`;
+
+        const label = document.createElement("label");
+        label.textContent = `${index + 1}. ${q.question}`;
+        div.appendChild(label);
+
+        const input = document.createElement("input");
+        input.type = "text";
+        input.id = qId;
+        div.appendChild(input);
+
+        container.appendChild(div);
+      });
+    }
+
     function updateCountdown() {
-  const nowUTC = new Date();
-  const nowBD = new Date(nowUTC.getTime() + 6 * 60 * 60 * 1000);
+      const nowUTC = new Date();
+      const nowBD = new Date(nowUTC.getTime() + 6 * 60 * 60 * 1000);
+      const endOfDayUTC = new Date(Date.UTC(
+        nowBD.getFullYear(),
+        nowBD.getMonth(),
+        nowBD.getDate(),
+        17, 59, 59
+      ));
 
-  // 构造孟加拉时间当日 23:59:59 的 UTC 时间
-  const endOfDayUTC = new Date(Date.UTC(
-    nowBD.getFullYear(),
-    nowBD.getMonth(),
-    nowBD.getDate(),
-    17, 59, 59 // 孟加拉时间 23:59:59 - UTC 偏移 6 小时 = 17:59:59 UTC
-  ));
+      const remaining = endOfDayUTC.getTime() - nowUTC.getTime();
+      const countdown = document.getElementById("countdown");
 
-  const remaining = endOfDayUTC.getTime() - nowUTC.getTime();
+      if (remaining <= 0) {
+        countdown.innerText = "আজকের কুইজ শেষ হয়েছে।";
+        return;
+      }
 
-  if (remaining <= 0) {
-    document.getElementById("countdown").innerText = "আজকের কুইজ শেষ হয়েছে।";
-    return;
-  }
+      const totalSeconds = Math.floor(remaining / 1000);
+      const hours = Math.floor(totalSeconds / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
 
-  const totalSeconds = Math.floor(remaining / 1000);
-  const hours = Math.floor(totalSeconds / 3600);
-  const minutes = Math.floor((totalSeconds % 3600) / 60);
-  const seconds = totalSeconds % 60;
-
-  document.getElementById("countdown").innerText =
-    `আজ প্রশ্নের উত্তর দেওয়ার জন্য বাকি সময়：${hours} ঘন্টা ${minutes} মিনিট ${seconds} সেকেন্ড`;
-}
-
-
-    setInterval(updateCountdown, 1000);
-    updateCountdown();
+      countdown.innerText = `আজ প্রশ্নের উত্তর দেওয়ার জন্য বাকি সময়：${hours} ঘন্টা ${minutes} মিনিট ${seconds} সেকেন্ড`;
+    }
 
     function submitAnswers() {
       const today = getBDDateString();
@@ -260,12 +273,10 @@
       for (let i = 1; i <= 5; i++) {
         const input = document.getElementById("q" + i);
         const value = input.value.trim();
-        const questionBox = document.getElementById("q" + i + "-box");
+        const box = document.getElementById("q" + i + "-box");
 
-        const prevAnswer = questionBox.querySelector(".correct-answer");
-        if (prevAnswer) {
-          prevAnswer.remove();
-        }
+        const prevAnswer = box.querySelector(".correct-answer");
+        if (prevAnswer) prevAnswer.remove();
 
         if (!value) {
           allFilled = false;
@@ -281,7 +292,7 @@
           const hint = document.createElement("div");
           hint.className = "correct-answer";
           hint.textContent = `সঠিক উত্তর: ${correctAnswers["q" + i]}`;
-          questionBox.appendChild(hint);
+          box.appendChild(hint);
         }
       }
 
@@ -303,6 +314,11 @@
     function showMistakes() {
       alert("আপনার ভুল উত্তরগুলোর প্রশ্ন ID: " + wrongList.join(", "));
     }
+
+    // 初始化
+    renderQuestions();
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
   </script>
 </body>
 </html>
