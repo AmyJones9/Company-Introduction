@@ -5608,9 +5608,8 @@
                     <div className="w-1/5 text-center font-bold">{user.rank <= 3 ? "👑" + user.rank : user.rank}</div>
                     <div className="w-3/5 truncate text-center">
 			{user.rank <= 5 && user.username
-    ? user.username.slice(0, 3) + "***" + user.username.slice(6)
-    : user.username}
-
+    			    ? user.username.slice(0, 3) + "***" + user.username.slice(6)
+    			    : user.username}
 		    </div>
                     <div className="w-1/5 text-center">{user.score}</div>
                   </div>
